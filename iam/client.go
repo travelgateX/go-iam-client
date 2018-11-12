@@ -25,7 +25,6 @@ import (
 	"os"
 
 	"github.com/machinebox/graphql"
-
 	"github.com/travelgateX/go-iam-client/model"
 )
 
