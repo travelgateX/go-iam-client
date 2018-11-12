@@ -3,7 +3,7 @@ package iam
 import (
 	"errors"
 
-	"github.com/travelgateX/go-entities-client/model"
+	"github.com/travelgateX/go-iam-client/model"
 )
 
 // CreateOrganization IAM API mutation function
