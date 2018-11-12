@@ -6,37 +6,47 @@ import (
 	"github.com/travelgateX/go-entities-client/model"
 )
 
-// Accesses Entities API query function
-func (c *Client) Accesses(id int) (model.AdminQuery, error) {
+// Organizations IAM API query function
+func (c *Client) Organizations(id int) (model.AdminQuery, error) {
 	return c.NewQuery(accessesRQ(id))
 }
 
-// Suppliers Entities API query function
-func (c *Client) Suppliers() (model.AdminQuery, error) {
+// Products IAM API query function
+func (c *Client) Products() (model.AdminQuery, error) {
 	return model.AdminQuery{}, errors.New("not implemented")
 }
 
-// Clients Entities API query function
-func (c *Client) Clients() (model.AdminQuery, error) {
+// Members IAM API query function
+func (c *Client) Members() (model.AdminQuery, error) {
 	return model.AdminQuery{}, errors.New("not implemented")
 }
 
-// ServiceAPI Entities API query function
-func (c *Client) ServiceAPI() (model.AdminQuery, error) {
+// Groups IAM API query function
+func (c *Client) Groups() (model.AdminQuery, error) {
 	return model.AdminQuery{}, errors.New("not implemented")
 }
 
-// PointsOfSale Entities API query function
-func (c *Client) PointsOfSale() (model.AdminQuery, error) {
+// Apis IAM API query function
+func (c *Client) Apis() (model.AdminQuery, error) {
 	return model.AdminQuery{}, errors.New("not implemented")
 }
 
-// Profiles Entities API query function
-func (c *Client) Profiles() (model.AdminQuery, error) {
+// Resources IAM API query function
+func (c *Client) Resources() (model.AdminQuery, error) {
 	return model.AdminQuery{}, errors.New("not implemented")
 }
 
-// Entities Entities API query function
-func (c *Client) Entities() (model.AdminQuery, error) {
+// Roles IAM API query function
+func (c *Client) Roles() (model.AdminQuery, error) {
+	return model.AdminQuery{}, errors.New("not implemented")
+}
+
+// Operations IAM API query function
+func (c *Client) Operations() (model.AdminQuery, error) {
+	return model.AdminQuery{}, errors.New("not implemented")
+}
+
+// IAM IAM API query function
+func (c *Client) IAM() (model.AdminQuery, error) {
 	return model.AdminQuery{}, errors.New("not implemented")
 }

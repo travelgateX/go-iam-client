@@ -6,30 +6,19 @@ import (
 )
 
 // accessesRQ returns graphql request query
-func accessesRQ(id int) string {
+func organizationRQ() string {
 	rq := `
 		query{
 			admin{
-				accesses(filter:{
-					accessID:$ID$
-				}){
+				organizations{
 					edges{
 						node{
-							accessData{
-								name
-								code
-								supplier{
-									supplierData{
-										code
-										name
-									}
-								}
-							}
+							code
 						}
 					}
 				}
 			}
 		}
 	`
-	return strings.Replace(rq, "$ID$", strconv.Itoa(id), 1)
+	return rq
 }
