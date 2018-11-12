@@ -1,7 +1,7 @@
 # go-iam-client
 GraphQL Go client to connect with the TravelgateX IAM API
 
-* Entities API strong Go types for response data
+* Iam API strong Go types for response data
 * Build and execute any IAM API request
 * Help package with some basic requests
 * Options to log and debug transactions
@@ -14,19 +14,19 @@ $ go get github.com/travelgateX/go-iam-client
 ```
 
 ## Initialization
-The service endpoint can be provide or you can let the library choose the endpoint depending on the environment variable DEPLOY_MODE. Also you must provide a valid TravelgateX bearer with permission to manage the EntitiesAPI. There are two constructors:
+The service endpoint can be provide or you can let the library choose the endpoint depending on the environment variable DEPLOY_MODE. Also you must provide a valid TravelgateX bearer with permission to manage the Iam-API. There are two constructors:
 ```go
-// Entities client, endpoint provided
+// Iam client, endpoint provided
 iamController := iam.NewClient("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImt...", "https://api...")
 
-// Entities default client, endpoint chosen by DEPLOY_MODE environment variable
+// Iam default client, endpoint chosen by DEPLOY_MODE environment variable
 iamController := iam.NewDefaultClient("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImt...")
 ```
 
 ## Usage
 ```go
-// Execute Find Acceses by ID template
-res, err := i.Organizations()
+// Execute query to list all organizations
+res, err := iamController.Organizations()
 
 // Execute new customized query
 res, err := iamController.NewQuery(`
