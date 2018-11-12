@@ -7,8 +7,8 @@ import (
 )
 
 // Organizations IAM API query function
-func (c *Client) Organizations(id int) (model.AdminQuery, error) {
-	return c.NewQuery(accessesRQ(id))
+func (c *Client) Organizations() (model.AdminQuery, error) {
+	return c.NewQuery(OrganizationRQ())
 }
 
 // Products IAM API query function

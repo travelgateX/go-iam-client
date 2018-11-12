@@ -25,13 +25,14 @@ import (
 	"os"
 
 	"github.com/machinebox/graphql"
-	"github.com/travelgateX/go-iam-client/model"
+
+	"github.com/travelgateX/go-entities-client/model"
 )
 
 // IAM API end points
 const (
-	IAMEndPointProd = "https://api-core.travelgatex.com/iam/query"
-	IAMEndPointDev  = "https://dev-api-core.travelgatex.com/iam/query"
+	IAMEndPointProd = "https://api-core.travelgatex.com/controller/query"
+	IAMEndPointDev  = "https://dev-api-iam.travelgatex.com/controller/query"
 )
 
 // Client : Grapqhql client
@@ -49,9 +50,9 @@ func NewClient(bearer, endpoint string) Client {
 
 // NewDefaultClient default constructor
 func NewDefaultClient(bearer string) Client {
-	cli := NewClient(bearer, EntityEndPointDev)
+	cli := NewClient(bearer, IAMEndPointDev)
 	if os.Getenv("DEPLOY_MODE") == "prod" || os.Getenv("DEPLOY_MODE") == "localProd" {
-		cli = NewClient(bearer, EntityEndPointProd)
+		cli = NewClient(bearer, IAMEndPointProd)
 	}
 	return cli
 }
