@@ -1,8 +1,8 @@
-# go-entities-client
-GraphQL Go client to connect with the TravelgateX Entities API
+# go-iam-client
+GraphQL Go client to connect with the TravelgateX IAM API
 
 * Entities API strong Go types for response data
-* Build and execute any Entities API request
+* Build and execute any IAM API request
 * Help package with some basic requests
 * Options to log and debug transactions
 
