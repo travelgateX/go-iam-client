@@ -28,7 +28,7 @@ iamController := iam.NewDefaultClient("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni
 // Execute Find Acceses by ID template
 res, err := i.Organizations()
 
-// Execute new customized query (NewMutation for mutations)
+// Execute new customized query
 res, err := iamController.NewQuery(`
 		query{
 			admin{
