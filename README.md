@@ -25,7 +25,7 @@ iamController := iam.NewDefaultClient("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1Ni
 
 ## Usage
 ```go
-// Execute Find all organizations 
+// Execute Find all organizations
 res, err := i.Organizations()
 
 // Execute find organizations by codes. Codes is a slices of strings

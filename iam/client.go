@@ -7,14 +7,14 @@
 //
 // Example of templates use:
 //
-// 		ent := iam.NewDefaultClient("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1N...")
-// 		res, _ := ent.Accesses(115)
+// 		iamContreller := iam.NewDefaultClient("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1N...")
+// 		res, _ := iamContreller.Organizations()
 // 		fmt.Printf("Access.name = %v", res.Query.Accesses.Edges[0].Node.AccessData.Name)
 //
 // Example of basic use:
 //
-// 		ent := iam.NewDefaultClient("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1N...")
-// 		res, _ := ent.NewQuery(`query{admin{accesses(...) ...`)
+// 		iamContreller := iam.NewDefaultClient("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1N...")
+// 		res, _ := iamContreller.NewQuery(`query{admin{accesses(...) ...`)
 // 		fmt.Printf("Access.name = %v", res.Query.Accesses.Edges[0].Node.AccessData.Name)
 //
 package iam
