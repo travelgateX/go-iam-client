@@ -1,7 +1,7 @@
 # go-iam-client
 GraphQL Go client to connect with the TravelgateX IAM API
 
-* Iam API strong Go types for response data
+* IAM API strong Go types for response data
 * Build and execute any IAM API request
 * Help package with some basic requests
 * Options to log and debug transactions
@@ -16,19 +16,26 @@ $ go get github.com/travelgateX/go-iam-client
 ## Initialization
 The service endpoint can be provide or you can let the library choose the endpoint depending on the environment variable DEPLOY_MODE. Also you must provide a valid TravelgateX bearer with permission to manage the Iam-API. There are two constructors:
 ```go
-// Iam client, endpoint provided
+// IAM client, endpoint provided
 iamController := iam.NewClient("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImt...", "https://api...")
 
-// Iam default client, endpoint chosen by DEPLOY_MODE environment variable
+// IAM default client, endpoint chosen by DEPLOY_MODE environment variable
 iamController := iam.NewDefaultClient("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImt...")
 ```
 
 ## Usage
 ```go
-// Execute query to list all organizations
-res, err := iamController.Organizations()
+// Execute Find all organizations 
+res, err := i.Organizations()
 
-// Execute new customized query
+// Execute find organizations by codes. Codes is a slices of strings
+codes := ["org1", "org2"]
+res, err :=  i.OrganizationsByCode(codes)
+
+// Execute updateGroup, needed api to add or delete and the group to update
+res, err := i.updateGroups("iam", "gr1", "ADD")
+
+// Execute new customized query 
 res, err := iamController.NewQuery(`
 		query{
 			admin{
@@ -42,6 +49,7 @@ res, err := iamController.NewQuery(`
 			}
 		}
 	`)
+
 
 // Log errors
 if err != nil {

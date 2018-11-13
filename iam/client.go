@@ -31,7 +31,7 @@ import (
 
 // IAM API end points
 const (
-	IAMEndPointProd = "https://api-core.travelgatex.com/controller/query"
+	IAMEndPointProd = "https://api-iam.travelgatex.com/controller/query"
 	IAMEndPointDev  = "https://dev-api-iam.travelgatex.com/controller/query"
 )
 
@@ -39,7 +39,6 @@ const (
 type Client struct {
 	graphql *graphql.Client // graphql client
 	bearer  string          // authentification bearer
-	debug   bool            // log graphql pkg transaction
 }
 
 // NewClient constructor

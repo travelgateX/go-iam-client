@@ -8,7 +8,12 @@ import (
 
 // Organizations IAM API query function
 func (c *Client) Organizations() (model.AdminQuery, error) {
-	return c.NewQuery(OrganizationRQ())
+	return c.NewQuery(organizationRQ())
+}
+
+// OrganizationsByCode IAM query function
+func (c *Client) OrganizationsByCode(codes []string) (model.AdminQuery, error) {
+	return c.NewQuery(organizationsByCodeRQ(codes))
 }
 
 // Products IAM API query function
@@ -43,10 +48,5 @@ func (c *Client) Roles() (model.AdminQuery, error) {
 
 // Operations IAM API query function
 func (c *Client) Operations() (model.AdminQuery, error) {
-	return model.AdminQuery{}, errors.New("not implemented")
-}
-
-// IAM IAM API query function
-func (c *Client) IAM() (model.AdminQuery, error) {
 	return model.AdminQuery{}, errors.New("not implemented")
 }

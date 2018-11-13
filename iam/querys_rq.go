@@ -1,7 +1,9 @@
 package iam
 
+import "strings"
+
 // accessesRQ returns graphql request query
-func OrganizationRQ() string {
+func organizationRQ() string {
 	rq := `
 		query{
 			admin{
@@ -15,5 +17,24 @@ func OrganizationRQ() string {
 			}
 		}
 	`
+	return rq
+}
+
+func organizationsByCodeRQ(codes []string) string {
+	rq := `
+	{
+		admin{
+		  organizations(codes: "$CODES$"){
+			edges{
+			  node{
+				code
+			  }
+			}
+		  }
+		}
+	  }
+	`
+	codeFilter := sliceToQuotedStringFormat(codes)
+	rq = strings.Replace(rq, "$CODES$", codeFilter, 1)
 	return rq
 }
