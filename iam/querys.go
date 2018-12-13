@@ -3,7 +3,7 @@ package iam
 import (
 	"errors"
 
-	"github.com/travelgateX/go-iam-client/model"
+	"go-iam-client/model"
 )
 
 // Organizations IAM API query function
@@ -14,6 +14,11 @@ func (c *Client) Organizations() (model.AdminQuery, error) {
 // OrganizationsByCode IAM query function
 func (c *Client) OrganizationsByCode(codes []string) (model.AdminQuery, error) {
 	return c.NewQuery(organizationsByCodeRQ(codes))
+}
+
+// Impersonate IAM memberData function
+func (c *Client) Impersonate(member string) (model.AdminQuery, error) {
+	return c.NewQuery(impersonateJWT(member))
 }
 
 // Products IAM API query function

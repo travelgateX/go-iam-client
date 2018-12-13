@@ -24,7 +24,7 @@ func organizationsByCodeRQ(codes []string) string {
 	rq := `
 	{
 		admin{
-		  organizations(codes: "$CODES$"){
+		  organizations(codes: $CODES$){
 			edges{
 			  node{
 				code
@@ -36,5 +36,29 @@ func organizationsByCodeRQ(codes []string) string {
 	`
 	codeFilter := sliceToQuotedStringFormat(codes)
 	rq = strings.Replace(rq, "$CODES$", codeFilter, 1)
+	return rq
+}
+
+func impersonateJWT(member string) string {
+	rq := `
+	query{
+		admin{
+			members(codes:"$CODE$"){
+				edges{
+					node{
+						memberData{
+							code
+							impersonationJWT{
+								token
+							}
+						}
+					}
+				}
+			}
+		}
+    
+	}
+	`
+	rq = strings.Replace(rq, "$CODE$", member, 1)
 	return rq
 }
