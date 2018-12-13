@@ -277,13 +277,19 @@ type MemberConnection struct {
 }
 
 type MemberData struct {
-	ID       string          `json:"id"`
-	IsActive bool            `json:"isActive"`
-	Code     string          `json:"code"`
-	Label    string          `json:"label"`
-	Type     MemberType      `json:"type"`
-	Groups   GroupConnection `json:"groups"`
-	Roles    RoleConnection  `json:"roles"`
+	ID               string          `json:"id"`
+	IsActive         bool            `json:"isActive"`
+	Code             string          `json:"code"`
+	Label            string          `json:"label"`
+	Type             MemberType      `json:"type"`
+	Groups           GroupConnection `json:"groups"`
+	Roles            RoleConnection  `json:"roles"`
+	ImpersonationJWT JWT             `json:"impersonationJWT"`
+}
+
+type JWT struct {
+	Token         string
+	AdviseMessage []AdviseMessage `json:"adviseMessage"`
 }
 
 type MemberEdge struct {
