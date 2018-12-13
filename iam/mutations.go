@@ -3,7 +3,7 @@ package iam
 import (
 	"errors"
 
-	"go-iam-client/model"
+	"github.com/travelgateX/go-iam-client/model"
 )
 
 // CreateMemeber IAM API mutation function

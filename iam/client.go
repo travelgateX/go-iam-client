@@ -26,7 +26,7 @@ import (
 
 	"github.com/machinebox/graphql"
 
-	"go-iam-client/model"
+	"github.com/travelgateX/go-iam-client/model"
 )
 
 // IAM API end points
