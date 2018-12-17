@@ -1,9 +1,10 @@
 package iam
 
 import (
-	"go-iam-client/model"
 	"log"
 	"strings"
+
+	"github.com/travelgateX/go-iam-client/model"
 )
 
 func updateGroupsRQ(input model.UpdateGroupInput, method string) string {

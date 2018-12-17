@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"go-iam-client/iam"
-	"go-iam-client/model"
+	"github.com/travelgateX/go-iam-client/iam"
+	"github.com/travelgateX/go-iam-client/model"
 )
 
 func main() {
