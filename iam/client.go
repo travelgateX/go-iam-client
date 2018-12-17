@@ -26,13 +26,13 @@ import (
 
 	"github.com/machinebox/graphql"
 
-	"github.com/travelgateX/go-iam-client/model"
+	"go-iam-client/model"
 )
 
 // IAM API end points
 const (
 	IAMEndPointProd = "https://api-iam.travelgatex.com/controller/query"
-	IAMEndPointDev  = "https://dev-api-iam.travelgatex.com/controller/query"
+	IAMEndPointDev  = "https://dev-api-iam.travelgatex.com/controller/xquery"
 )
 
 // Client : Grapqhql client

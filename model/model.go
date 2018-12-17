@@ -85,12 +85,14 @@ type AdminMutation struct {
 }
 
 type Mutation struct {
-	CreateMember Member `json:"createMember"`
-	CreateGroup  Group  `json:"createGroup"`
-	UpdateMember Member `json:"updateMember"`
-	UpdateGroup  Group  `json:"updateGroup"`
-	DeleteMember Member `json:"deleteMember"`
-	DeleteGroup  Group  `json:"deleteGroup"`
+	CreateMember       Member       `json:"createMember"`
+	CreateGroup        Group        `json:"createGroup"`
+	UpdateMember       Member       `json:"updateMember"`
+	UpdateGroup        Group        `json:"updateGroup"`
+	DeleteMember       Member       `json:"deleteMember"`
+	DeleteGroup        Group        `json:"deleteGroup"`
+	CreateOrganization Organization `json:"createOrganization"`
+	DeleteOrganization Organization `json:"deleteOrganization"`
 }
 
 type Query struct {
@@ -161,8 +163,19 @@ type CreateMemberInput struct {
 	Resources []string   `json:"resources"`
 }
 
+type CreateOrganizationInput struct {
+	User         string
+	Info         string
+	Organization string
+	Template     string
+}
+
 type DeleteGroupInput struct {
 	Group string `json:"group"`
+}
+
+type DeleteOrganizationInput struct {
+	Organization string `json:"organization"`
 }
 
 type DeleteMemberInput struct {

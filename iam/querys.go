@@ -3,7 +3,7 @@ package iam
 import (
 	"errors"
 
-	"github.com/travelgateX/go-iam-client/model"
+	"go-iam-client/model"
 )
 
 // Organizations IAM API query function

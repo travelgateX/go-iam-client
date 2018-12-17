@@ -3,18 +3,24 @@ package main
 import (
 	"log"
 
-	"github.com/travelgateX/go-iam-client/iam"
+	"go-iam-client/iam"
+	"go-iam-client/model"
 )
 
 func main() {
 
 	// Impersonate example
-	i := iam.NewDefaultClient("Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik5EQTFOa00zUVVSRk1EQXdOekF4TVRKRk5UQkdSRGMwUWpreVEwVTJOVVV6UkRrNU5rUkNSZyJ9.eyJodHRwczovL3RyYXZlbGdhdGV4LmNvbS9pYW0iOlt7ImEiOm51bGwsImMiOiJ4dGciLCJnIjpbeyJhIjp7ImFsbCI6eyJlbnRpdHkiOnsiYWNjIjpbImNydWQxYWYiXSwiY2xpIjpbImNydWQxYWYiXSwic3VwIjpbImNydWQxYWYiXX0sImhvdGxzdCI6eyJob3QiOlsiMXgiXX0sImh1YmdyYSI6eyJib2siOlsiMXhmIl0sImJvbyI6WyIxeGYiXSwiYnJkIjpbIjF4ZiJdLCJjYXQiOlsiMXhmIl0sImNmZyI6WyIxeGYiXSwiY25sIjpbIjF4ZiJdLCJxdGUiOlsiMXhmIl0sInJvbSI6WyIxeGYiXSwic3JjIjpbIjF4ZiJdfSwiaWFtIjp7ImFwaSI6WyJjcnVkMWFmIl0sImdycCI6WyJjcnVkMWFmIl0sIm1iciI6WyJjcnVkMWFmIl0sInByZCI6WyJjcnVkMWFmIl0sInJvbCI6WyJjcnVkMWFmIl0sInJzYyI6WyJjcnVkMWFmIl0sIm9wdCI6WyJjcnVkMWFmIl0sInRrbiI6WyJjcnVkMWFmIl19fX0sImMiOiJkZXZvcHMiLCJnIjpudWxsLCJwIjp7ImlhbSI6eyJncnAiOlsiY3J1ZDEiXX19LCJ0IjoidGVhbSJ9XSwicCI6eyJpYW0iOnsiZ3JwIjpbImNydWQxIl19fSwidCI6InJvb3QifV0sImh0dHBzOi8vdHJhdmVsZ2F0ZXguY29tL21lbWJlcl9pZCI6InNsdWNlYUB4bWx0cmF2ZWxnYXRlLmNvbSIsImlzcyI6Imh0dHBzOi8veHRnLWRldi5ldS5hdXRoMC5jb20vIiwic3ViIjoiQ3MzWmtOanBNQ3cyZlZUOWc2cG4wbHNTSndkNjFQOVhAY2xpZW50cyIsImF1ZCI6Imh0dHBzOi8vYXBpLnRyYXZlbGdhdGV4LmNvbSIsImlhdCI6MTU0MjcwODgxMCwiZXhwIjoxNTUwNDg0ODEwLCJhenAiOiJDczNaa05qcE1DdzJmVlQ5ZzZwbjBsc1NKd2Q2MVA5WCIsImd0eSI6ImNsaWVudC1jcmVkZW50aWFscyJ9.NILYEdip-prCQxxmQYM8VFM8yrm2vtDVSTjqOXWK00-3DbjF6aAw6ZRb0Nk5G2r2h8sDLipUtAlDFqi0PBwalHz8YrtwVI0MqZ-tBKBo0rtZ6RaTxnxudMQPe5p2aSGwd1sBq6kMG8BHiPNLf4JtYchnRj_-axjK6FNSAtem1g0njKo73HBvmkJikkVyUPK-EtYN7aJebbfQRF05XWqS45c0HL00n4UzzGg2j3pQulJw3nETcZIAR-qJxZGiYKvwrCmFlCGibSVkT2ODyQRmrwaD9laBAlD8cc8vA0ORmFsAXuH0b44QuULdH4_ugplsmzs0R-xuy-EAnlNxmEUfGg")
+	i := iam.NewDefaultClient("BEARER")
+	i.DebugMode(true)
 
-	res, err := i.Impersonate("slucea@travelgatex.com")
+	inputCreateOrg := model.CreateOrganizationInput{
+		Organization: "pikachu",
+		User:         "slucea@travelgatex.com",
+	}
+	res, err := i.CreateOrganization(inputCreateOrg)
 	if err != nil {
 		log.Printf("ERROR: %v", err)
 	}
 
-	log.Printf("%v", res.Query.Members.Edges[0].Node.MemberData.ImpersonationJWT.Token)
+	log.Printf("QUERY : %v", res.Mutation.CreateOrganization.Code)
 }
