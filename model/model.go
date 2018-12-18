@@ -883,7 +883,8 @@ func (e RoleType) MarshalGQL(w io.Writer) {
 type Template string
 
 const (
-	TemplateFolderDefault Template = "FOLDER_DEFAULT"
+	TemplateFolderDefault       Template = "FOLDER_DEFAULT"
+	TemplateOrganizationDefault Template = "ORGANIZATION_DEFAULT"
 )
 
 func (e Template) IsValid() bool {
