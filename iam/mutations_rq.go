@@ -7,7 +7,7 @@ import (
 	"github.com/travelgateX/go-iam-client/model"
 )
 
-func updateGroupsRQ(input model.UpdateGroupInput, method string) string {
+func updateGroupsRQ(input model.UpdateGroupInput, method model.Method) string {
 
 	rq := `
 	mutation{
@@ -31,7 +31,7 @@ func updateGroupsRQ(input model.UpdateGroupInput, method string) string {
   `
 	rq = strings.Replace(rq, "$API$", input.API, 1)
 	rq = strings.Replace(rq, "$GROUP$", input.Group, 1)
-	rq = strings.Replace(rq, "$METHOD$", method, 1)
+	rq = strings.Replace(rq, "$METHOD$", string(method), 1)
 	return rq
 }
 

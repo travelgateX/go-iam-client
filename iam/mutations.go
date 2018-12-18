@@ -32,7 +32,7 @@ func (c *Client) UpdateMember(input model.UpdateMemberInput) (model.AdminMutatio
 }
 
 // UpdateGroups Entities API mutation function
-func (c *Client) UpdateGroups(input model.UpdateGroupInput, method string) (model.AdminMutation, error) {
+func (c *Client) UpdateGroups(input model.UpdateGroupInput, method model.Method) (model.AdminMutation, error) {
 	return c.NewMutation(updateGroupsRQ(input, method))
 }
 
