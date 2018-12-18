@@ -87,7 +87,7 @@ func updateMemberRQ(input model.UpdateMemberInput) string {
 	mutation{
 		admin{
 			updateMember(member:{
-				member: $MEMBER$
+				member: "$MEMBER$"
 				info: "$INFO$"
 				group: "$GROUP$"
 				resources: $RESOURCES$
@@ -111,7 +111,7 @@ func updateMemberRQ(input model.UpdateMemberInput) string {
 	resources := sliceToQuotedStringFormat(input.Resources)
 	rq = strings.Replace(rq, "$RESOURCES$", resources, 1)
 
-	rq = strings.Replace(rq, "$ROLE$", input.Member, 1)
+	rq = strings.Replace(rq, "$ROLE$", input.Role, 1)
 	rq = strings.Replace(rq, "$METHOD$", input.Method.String(), 1)
 
 	return rq
