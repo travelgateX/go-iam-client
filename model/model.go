@@ -167,7 +167,7 @@ type CreateOrganizationInput struct {
 	User         string
 	Info         string
 	Organization string
-	Template     string
+	Template     Template
 }
 
 type DeleteGroupInput struct {
