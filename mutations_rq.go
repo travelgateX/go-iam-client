@@ -7,34 +7,6 @@ import (
 	"github.com/travelgateX/go-iam-client/model"
 )
 
-func updateGroupsRQ(input model.UpdateGroupInput, method model.Method) string {
-
-	rq := `
-	mutation{
-		admin{
-		  updateGroup(
-			group:{
-			  api:"$API$"
-			  group:"$GROUP$"
-			}
-			method:$METHOD$
-		  ){
-			code
-			error{
-			  code
-			  type
-			  description
-			}
-		  }
-		}
-	}
-  `
-	rq = strings.Replace(rq, "$API$", input.API, 1)
-	rq = strings.Replace(rq, "$GROUP$", input.Group, 1)
-	rq = strings.Replace(rq, "$METHOD$", string(method), 1)
-	return rq
-}
-
 func createOrganizationRQ(input model.CreateOrganizationInput) string {
 	rq := `
 	mutation{

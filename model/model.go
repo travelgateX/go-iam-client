@@ -3,10 +3,26 @@
 package model
 
 import (
-	fmt "fmt"
-	io "io"
-	strconv "strconv"
+	"fmt"
+	"io"
+	"strconv"
 )
+
+type GroupCommonData interface {
+	IsGroupCommonData()
+}
+
+type Node interface {
+	IsNode()
+}
+
+type SearchResultItemConnection interface {
+	IsSearchResultItemConnection()
+}
+
+type Test1 interface {
+	IsTest1()
+}
 
 type API struct {
 	Code          string          `json:"code"`
@@ -67,7 +83,7 @@ type AccessData struct {
 	Parameters []Parameter     `json:"parameters"`
 	Markets    []string        `json:"markets"`
 	RateRules  []RateRulesType `json:"rateRules"`
-	//Shared     Access          `json:"shared"`
+	// Shared     Access          `json:"shared"`  // todo: invalid recursive type Access error
 	Owner Organization `json:"owner"`
 }
 
@@ -76,26 +92,45 @@ type AccessEdge struct {
 	Cursor string `json:"cursor"`
 }
 
-type AdminQuery struct {
-	Query Query `json:"admin"`
+type AdminDataInput struct {
+	Group        string   `json:"group"`
+	Organization string   `json:"organization"`
+	API          string   `json:"api"`
+	Resources    []string `json:"resources"`
+	Role         string   `json:"role"`
 }
 
 type AdminMutation struct {
-	Mutation Mutation `json:"admin"`
+	CreateOrganization       Organization `json:"createOrganization"`
+	SuitOrganization         Organization `json:"suitOrganization"`
+	CreateProduct            Product      `json:"createProduct"`
+	CreateMember             Member       `json:"createMember"`
+	CreateGroup              Group        `json:"createGroup"`
+	CreateAPI                API          `json:"createApi"`
+	CreateResource           Resource     `json:"createResource"`
+	CreateRole               Role         `json:"createRole"`
+	UpdateOrganization       Organization `json:"updateOrganization"`
+	ResetMemberPassword      Member       `json:"resetMemberPassword"`
+	UpdateProduct            Product      `json:"updateProduct"`
+	UpdateMember             Member       `json:"updateMember"`
+	UpdateGroup              Group        `json:"updateGroup"`
+	GrantAPIToGroup          Group        `json:"grantApiToGroup"`
+	RevokeAPIFromGroup       Group        `json:"revokeApiFromGroup"`
+	UpdateGroupAdmin         Group        `json:"updateGroupAdmin"`
+	DeleteOrganization       Organization `json:"deleteOrganization"`
+	DeleteProduct            Product      `json:"deleteProduct"`
+	DeleteMember             Member       `json:"deleteMember"`
+	LockMember               Member       `json:"lockMember"`
+	DeleteGroup              Group        `json:"deleteGroup"`
+	DeleteAPI                API          `json:"deleteApi"`
+	DeleteResource           Resource     `json:"deleteResource"`
+	DeleteRole               Role         `json:"deleteRole"`
+	RefreshToken             []Token      `json:"refreshToken"`
+	MoveFolder               Group        `json:"moveFolder"`
+	UpdateOrganizationDomain Organization `json:"updateOrganizationDomain"`
 }
 
-type Mutation struct {
-	CreateMember       Member       `json:"createMember"`
-	CreateGroup        Group        `json:"createGroup"`
-	UpdateMember       Member       `json:"updateMember"`
-	UpdateGroup        Group        `json:"updateGroup"`
-	DeleteMember       Member       `json:"deleteMember"`
-	DeleteGroup        Group        `json:"deleteGroup"`
-	CreateOrganization Organization `json:"createOrganization"`
-	DeleteOrganization Organization `json:"deleteOrganization"`
-}
-
-type Query struct {
+type AdminQuery struct {
 	Organizations OrganizationConnection `json:"organizations"`
 	Products      ProductConnection      `json:"products"`
 	Members       MemberConnection       `json:"members"`
@@ -112,10 +147,6 @@ type AdviseMessage struct {
 	Level         AdviseMessageLevel `json:"level"`
 	External      ExternalMessage    `json:"external"`
 	CorrelationID string             `json:"correlationID"`
-}
-
-type Bearer struct {
-	Code string `json:"code"`
 }
 
 type Client struct {
@@ -146,12 +177,22 @@ type ClientEdge struct {
 	Cursor string `json:"cursor"`
 }
 
+type CreateAPIInput struct {
+	API        string `json:"api"`
+	Label      string `json:"label"`
+	IsEditable bool   `json:"isEditable"`
+}
+
 type CreateGroupInput struct {
 	Group    string         `json:"group"`
 	Type     GroupTypeInput `json:"type"`
 	Info     string         `json:"info"`
 	Parent   string         `json:"parent"`
-	Template Template       `json:"template"`
+	Owner    string         `json:"owner"`
+	Editable bool           `json:"editable"`
+	Product  string         `json:"product"`
+	Resource string         `json:"resource"`
+	Template GroupTemplate  `json:"template"`
 }
 
 type CreateMemberInput struct {
@@ -163,24 +204,88 @@ type CreateMemberInput struct {
 	Resources []string   `json:"resources"`
 }
 
+type CreateOperationInput struct {
+	Operation string        `json:"operation"`
+	API       string        `json:"api"`
+	Type      OperationType `json:"type"`
+}
+
 type CreateOrganizationInput struct {
-	User         string
-	Info         string
-	Organization string
-	Template     Template
+	User         string               `json:"user"`
+	Info         string               `json:"info"`
+	Organization string               `json:"organization"`
+	Template     OrganizationTemplate `json:"template"`
+}
+
+type CreateProductInput struct {
+	Product string   `json:"product"`
+	Apis    []string `json:"apis"`
+}
+
+type CreateResourceInput struct {
+	Resource   string `json:"resource"`
+	API        string `json:"api"`
+	Label      string `json:"label"`
+	IsEditable bool   `json:"isEditable"`
+}
+
+type CreateRoleInput struct {
+	Role       string   `json:"role"`
+	Resource   string   `json:"resource"`
+	Label      string   `json:"label"`
+	Permission string   `json:"permission"`
+	Type       RoleType `json:"type"`
+	IsEditable bool     `json:"isEditable"`
+}
+
+type DeleteAPIInput struct {
+	Apis []string `json:"apis"`
 }
 
 type DeleteGroupInput struct {
 	Group string `json:"group"`
 }
 
+type DeleteMemberInput struct {
+	Member string `json:"member"`
+	Group  string `json:"group"`
+}
+
+type DeleteOperationInput struct {
+	Operation string `json:"operation"`
+}
+
 type DeleteOrganizationInput struct {
 	Organization string `json:"organization"`
 }
 
-type DeleteMemberInput struct {
-	Member string `json:"member"`
-	Group  string `json:"group"`
+type DeleteProductInput struct {
+	Products []string `json:"products"`
+}
+
+type DeleteResourceInput struct {
+	Resources []string `json:"resources"`
+}
+
+type DeleteRoleInput struct {
+	Role string `json:"role"`
+}
+
+type Domain struct {
+	Code          string          `json:"code"`
+	DomainData    DomainData      `json:"domainData"`
+	Error         []Error         `json:"error"`
+	AdviseMessage []AdviseMessage `json:"adviseMessage"`
+	CreatedAt     string          `json:"createdAt"`
+	UpdatedAt     string          `json:"updatedAt"`
+}
+
+func (Domain) IsNode() {}
+
+type DomainData struct {
+	ID           string       `json:"id"`
+	Name         string       `json:"name"`
+	Organization Organization `json:"organization"`
 }
 
 type Error struct {
@@ -203,16 +308,15 @@ type Group struct {
 	UpdatedAt     string          `json:"updatedAt"`
 }
 
-func (Group) IsNode() {}
-
-type GroupCommonData interface {
-	IsGroupCommonData()
-}
+func (Group) Istest1() {}
+func (Group) IsNode()  {}
 
 type GroupConnection struct {
 	Edges    []GroupEdge `json:"edges"`
 	PageInfo PageInfo    `json:"pageInfo"`
 }
+
+func (GroupConnection) IsSearchResultItemConnection() {}
 
 type GroupData struct {
 	ID    string    `json:"id"`
@@ -220,7 +324,7 @@ type GroupData struct {
 	Label string    `json:"label"`
 	Type  GroupType `json:"type"`
 	Info  string    `json:"info"`
-	//Parent        Group                  `json:"parent"`
+	// Parent Group     `json:"parent"`
 	Children      GroupConnection        `json:"children"`
 	Descendents   GroupConnection        `json:"descendents"`
 	Parents       GroupConnection        `json:"parents"`
@@ -243,6 +347,22 @@ func (GroupData) IsGroupCommonData() {}
 type GroupEdge struct {
 	Node   Group  `json:"node"`
 	Cursor string `json:"cursor"`
+}
+
+type InputMemberData struct {
+	Isuser bool   `json:"isuser"`
+	Apikey string `json:"apikey"`
+	JSON   string `json:"json"`
+}
+
+type Jwt struct {
+	Token         string          `json:"token"`
+	AdviseMessage []AdviseMessage `json:"adviseMessage"`
+}
+
+type LockMemberInput struct {
+	Member string `json:"member"`
+	Lock   bool   `json:"lock"`
 }
 
 type ManagedGroup struct {
@@ -282,7 +402,8 @@ type Member struct {
 	UpdatedAt     string          `json:"updatedAt"`
 }
 
-func (Member) IsNode() {}
+func (Member) Istest1() {}
+func (Member) IsNode()  {}
 
 type MemberConnection struct {
 	Edges    []MemberEdge `json:"edges"`
@@ -291,18 +412,14 @@ type MemberConnection struct {
 
 type MemberData struct {
 	ID               string          `json:"id"`
-	IsActive         bool            `json:"isActive"`
 	Code             string          `json:"code"`
 	Label            string          `json:"label"`
 	Type             MemberType      `json:"type"`
+	IsActive         bool            `json:"isActive"`
+	IsLocked         bool            `json:"isLocked"`
 	Groups           GroupConnection `json:"groups"`
 	Roles            RoleConnection  `json:"roles"`
-	ImpersonationJWT JWT             `json:"impersonationJWT"`
-}
-
-type JWT struct {
-	Token         string
-	AdviseMessage []AdviseMessage `json:"adviseMessage"`
+	ImpersonationJwt Jwt             `json:"impersonationJWT"`
 }
 
 type MemberEdge struct {
@@ -310,8 +427,9 @@ type MemberEdge struct {
 	Cursor string `json:"cursor"`
 }
 
-type Node interface {
-	IsNode()
+type MoveFolderInput struct {
+	FolderCode string `json:"folderCode"`
+	OrgCode    string `json:"orgCode"`
 }
 
 type Operation struct {
@@ -376,6 +494,8 @@ type OrganizationData struct {
 	Accesses    AccessConnection   `json:"accesses"`
 	Suppliers   SupplierConnection `json:"suppliers"`
 	Clients     ClientConnection   `json:"clients"`
+	Domains     []Domain           `json:"domains"`
+	Template    string             `json:"template"`
 }
 
 func (OrganizationData) IsGroupCommonData() {}
@@ -430,6 +550,10 @@ type Provider struct {
 	Name     string `json:"name"`
 	IsActive bool   `json:"isActive"`
 	IsPublic bool   `json:"isPublic"`
+}
+
+type ResetMemberPasswordInput struct {
+	Member string `json:"member"`
 }
 
 type Resource struct {
@@ -500,6 +624,12 @@ type RoleEdge struct {
 	Cursor string `json:"cursor"`
 }
 
+type SuitOrganizationInput struct {
+	User         string               `json:"user"`
+	Organization string               `json:"organization"`
+	Template     OrganizationTemplate `json:"template"`
+}
+
 type Supplier struct {
 	Code          string          `json:"code"`
 	SupplierData  SupplierData    `json:"supplierData"`
@@ -533,10 +663,23 @@ type SupplierEdge struct {
 	Cursor string   `json:"cursor"`
 }
 
+type Token struct {
+	Code          string          `json:"code"`
+	Error         []Error         `json:"error"`
+	AdviseMessage []AdviseMessage `json:"adviseMessage"`
+}
+
+type UpdateGroupAPISinput struct {
+	API   []string `json:"api"`
+	Group string   `json:"group"`
+}
+
 type UpdateGroupInput struct {
-	API   string `json:"api"`
-	Group string `json:"group"`
-	Info  string `json:"info"`
+	Group string         `json:"group"`
+	Owner string         `json:"owner"`
+	Type  GroupTypeInput `json:"type"`
+	Info  string         `json:"info"`
+	Label string         `json:"label"`
 }
 
 type UpdateMemberInput struct {
@@ -546,6 +689,23 @@ type UpdateMemberInput struct {
 	Role      string   `json:"role"`
 	Resources []string `json:"resources"`
 	Method    Method   `json:"method"`
+}
+
+type UpdateOperationInput struct {
+	Operation string `json:"operation"`
+}
+
+type UpdateOrganizationInput struct {
+	API          string `json:"api"`
+	Info         string `json:"info"`
+	Organization string `json:"organization"`
+	Method       Method `json:"method"`
+}
+
+type UpdateProductInput struct {
+	Product string   `json:"product"`
+	Apis    []string `json:"apis"`
+	Method  Method   `json:"method"`
 }
 
 type Urls struct {
@@ -562,6 +722,12 @@ const (
 	AdviseMessageLevelError AdviseMessageLevel = "ERROR"
 	AdviseMessageLevelInfo  AdviseMessageLevel = "INFO"
 )
+
+var AllAdviseMessageLevel = []AdviseMessageLevel{
+	AdviseMessageLevelWarn,
+	AdviseMessageLevelError,
+	AdviseMessageLevelInfo,
+}
 
 func (e AdviseMessageLevel) IsValid() bool {
 	switch e {
@@ -592,6 +758,45 @@ func (e AdviseMessageLevel) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type GroupTemplate string
+
+const (
+	GroupTemplateFolderDefault GroupTemplate = "FOLDER_DEFAULT"
+)
+
+var AllGroupTemplate = []GroupTemplate{
+	GroupTemplateFolderDefault,
+}
+
+func (e GroupTemplate) IsValid() bool {
+	switch e {
+	case GroupTemplateFolderDefault:
+		return true
+	}
+	return false
+}
+
+func (e GroupTemplate) String() string {
+	return string(e)
+}
+
+func (e GroupTemplate) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	e = GroupTemplate(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid GroupTemplate", str)
+	}
+	return nil
+}
+
+func (e GroupTemplate) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type GroupType string
 
 const (
@@ -605,6 +810,18 @@ const (
 	GroupTypeResource         GroupType = "RESOURCE"
 	GroupTypeSpecificResource GroupType = "SPECIFIC_RESOURCE"
 )
+
+var AllGroupType = []GroupType{
+	GroupTypeRoot,
+	GroupTypeOrg,
+	GroupTypeGroup,
+	GroupTypeProfile,
+	GroupTypeTeam,
+	GroupTypeFolder,
+	GroupTypeProduct,
+	GroupTypeResource,
+	GroupTypeSpecificResource,
+}
 
 func (e GroupType) IsValid() bool {
 	switch e {
@@ -649,6 +866,18 @@ const (
 	GroupTypeInputSpecificResource GroupTypeInput = "SPECIFIC_RESOURCE"
 )
 
+var AllGroupTypeInput = []GroupTypeInput{
+	GroupTypeInputRoot,
+	GroupTypeInputOrg,
+	GroupTypeInputGroup,
+	GroupTypeInputProfile,
+	GroupTypeInputTeam,
+	GroupTypeInputFolder,
+	GroupTypeInputProduct,
+	GroupTypeInputResource,
+	GroupTypeInputSpecificResource,
+}
+
 func (e GroupTypeInput) IsValid() bool {
 	switch e {
 	case GroupTypeInputRoot, GroupTypeInputOrg, GroupTypeInputGroup, GroupTypeInputProfile, GroupTypeInputTeam, GroupTypeInputFolder, GroupTypeInputProduct, GroupTypeInputResource, GroupTypeInputSpecificResource:
@@ -685,6 +914,11 @@ const (
 	MemberTypeServiceAccount MemberType = "SERVICE_ACCOUNT"
 )
 
+var AllMemberType = []MemberType{
+	MemberTypeUser,
+	MemberTypeServiceAccount,
+}
+
 func (e MemberType) IsValid() bool {
 	switch e {
 	case MemberTypeUser, MemberTypeServiceAccount:
@@ -720,6 +954,11 @@ const (
 	MethodAdd Method = "ADD"
 	MethodDel Method = "DEL"
 )
+
+var AllMethod = []Method{
+	MethodAdd,
+	MethodDel,
+}
 
 func (e Method) IsValid() bool {
 	switch e {
@@ -766,6 +1005,20 @@ const (
 	OperationTypeOther     OperationType = "OTHER"
 )
 
+var AllOperationType = []OperationType{
+	OperationTypeSearch,
+	OperationTypeQuote,
+	OperationTypeBook,
+	OperationTypeCancel,
+	OperationTypeScheduler,
+	OperationTypeCreate,
+	OperationTypeRead,
+	OperationTypeUpdate,
+	OperationTypeDelete,
+	OperationTypeExecute,
+	OperationTypeOther,
+}
+
 func (e OperationType) IsValid() bool {
 	switch e {
 	case OperationTypeSearch, OperationTypeQuote, OperationTypeBook, OperationTypeCancel, OperationTypeScheduler, OperationTypeCreate, OperationTypeRead, OperationTypeUpdate, OperationTypeDelete, OperationTypeExecute, OperationTypeOther:
@@ -795,6 +1048,45 @@ func (e OperationType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type OrganizationTemplate string
+
+const (
+	OrganizationTemplateOrganizationDefault OrganizationTemplate = "ORGANIZATION_DEFAULT"
+)
+
+var AllOrganizationTemplate = []OrganizationTemplate{
+	OrganizationTemplateOrganizationDefault,
+}
+
+func (e OrganizationTemplate) IsValid() bool {
+	switch e {
+	case OrganizationTemplateOrganizationDefault:
+		return true
+	}
+	return false
+}
+
+func (e OrganizationTemplate) String() string {
+	return string(e)
+}
+
+func (e OrganizationTemplate) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	e = OrganizationTemplate(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid OrganizationTemplate", str)
+	}
+	return nil
+}
+
+func (e OrganizationTemplate) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type RateRulesType string
 
 const (
@@ -811,6 +1103,21 @@ const (
 	RateRulesTypeNormal           RateRulesType = "NORMAL"
 	RateRulesTypeNonRefundable    RateRulesType = "NON_REFUNDABLE"
 )
+
+var AllRateRulesType = []RateRulesType{
+	RateRulesTypePackage,
+	RateRulesTypeOlder55,
+	RateRulesTypeOlder60,
+	RateRulesTypeOlder65,
+	RateRulesTypeCanaryResident,
+	RateRulesTypeBalearicResident,
+	RateRulesTypeLargeFamily,
+	RateRulesTypeHoneymoon,
+	RateRulesTypePublicServant,
+	RateRulesTypeUnemployed,
+	RateRulesTypeNormal,
+	RateRulesTypeNonRefundable,
+}
 
 func (e RateRulesType) IsValid() bool {
 	switch e {
@@ -851,6 +1158,14 @@ const (
 	RoleTypeSpecific RoleType = "SPECIFIC"
 )
 
+var AllRoleType = []RoleType{
+	RoleTypeViewer,
+	RoleTypeEditor,
+	RoleTypeAdmin,
+	RoleTypeExecutor,
+	RoleTypeSpecific,
+}
+
 func (e RoleType) IsValid() bool {
 	switch e {
 	case RoleTypeViewer, RoleTypeEditor, RoleTypeAdmin, RoleTypeExecutor, RoleTypeSpecific:
@@ -877,41 +1192,5 @@ func (e RoleType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e RoleType) MarshalGQL(w io.Writer) {
-	fmt.Fprint(w, strconv.Quote(e.String()))
-}
-
-type Template string
-
-const (
-	TemplateFolderDefault       Template = "FOLDER_DEFAULT"
-	TemplateOrganizationDefault Template = "ORGANIZATION_DEFAULT"
-)
-
-func (e Template) IsValid() bool {
-	switch e {
-	case TemplateFolderDefault:
-		return true
-	}
-	return false
-}
-
-func (e Template) String() string {
-	return string(e)
-}
-
-func (e Template) UnmarshalGQL(v interface{}) error {
-	str, ok := v.(string)
-	if !ok {
-		return fmt.Errorf("enums must be strings")
-	}
-
-	e = Template(str)
-	if !e.IsValid() {
-		return fmt.Errorf("%s is not a valid Template", str)
-	}
-	return nil
-}
-
-func (e Template) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
