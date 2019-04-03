@@ -21,6 +21,11 @@ func (c *Client) Impersonate(member string) (model.AdminQuery, error) {
 	return c.NewQuery(impersonateJWT(member))
 }
 
+// GroupsByCode IAM query function
+func (c *Client) GroupsByCode(codes []string) (model.AdminQuery, error) {
+	return c.NewQuery(groupsByCodeRQ(codes))
+}
+
 // Products IAM API query function
 func (c *Client) Products() (model.AdminQuery, error) {
 	return model.AdminQuery{}, errors.New("not implemented")

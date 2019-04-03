@@ -62,3 +62,27 @@ func impersonateJWT(member string) string {
 	rq = strings.Replace(rq, "$CODE$", member, 1)
 	return rq
 }
+
+func groupsByCodeRQ(codes []string) string {
+	rq := `
+		query{
+			admin{
+				groups(codes:$CODES$){
+					edges{
+						node{
+							groupData{
+								id
+								code
+								type
+								label
+							}
+						}
+					}
+				}
+			}
+		}
+	`
+	codeFilter := sliceToQuotedStringFormat(codes)
+	rq = strings.Replace(rq, "$CODES$", codeFilter, 1)
+	return rq
+}
