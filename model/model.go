@@ -8,6 +8,14 @@ import (
 	"strconv"
 )
 
+type AdminQuery struct {
+	Query Query `json:"admin"`
+}
+
+type AdminMutation struct {
+	Mutation Mutation `json:"admin"`
+}
+
 type GroupCommonData interface {
 	IsGroupCommonData()
 }
@@ -100,7 +108,7 @@ type AdminDataInput struct {
 	Role         string   `json:"role"`
 }
 
-type AdminMutation struct {
+type Mutation struct {
 	CreateOrganization       Organization `json:"createOrganization"`
 	SuitOrganization         Organization `json:"suitOrganization"`
 	CreateProduct            Product      `json:"createProduct"`
@@ -130,7 +138,7 @@ type AdminMutation struct {
 	UpdateOrganizationDomain Organization `json:"updateOrganizationDomain"`
 }
 
-type AdminQuery struct {
+type Query struct {
 	Organizations OrganizationConnection `json:"organizations"`
 	Products      ProductConnection      `json:"products"`
 	Members       MemberConnection       `json:"members"`
